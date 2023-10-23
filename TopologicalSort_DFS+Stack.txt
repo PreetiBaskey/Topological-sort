@@ -1,0 +1,53 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+const int V = 6;
+
+void addEdge(vector<int> adj[], int source, int destination) {
+    adj[source].push_back(destination);
+}
+
+void DFS(vector<int> adj[], vector<int> &visited, stack<int> &st, int node) {
+    visited[node] = 1;
+    for(int neighbour: adj[node]) {
+        if(!visited[neighbour]) {
+            DFS(adj, visited, st, neighbour);
+        }
+    }
+    st.push(node);
+}
+
+int main() {
+    
+    vector<int> adj[V];
+    vector<int> visited(V, 0);
+    stack<int> st;
+    
+    // addEdge(adj, 0, 1);
+    // addEdge(adj, 0, 2);
+    // addEdge(adj, 0, 3);
+    // addEdge(adj, 1, 2);
+    
+    addEdge(adj, 0, 3);
+    addEdge(adj, 0, 2);
+    addEdge(adj, 2, 3);
+    addEdge(adj, 2, 1);
+    addEdge(adj, 3, 1);
+    addEdge(adj, 1, 4);
+    addEdge(adj, 5, 1);
+    addEdge(adj, 5, 4);
+    
+    for(int i = 0; i < V; i++) {
+        if(!visited[i]) {
+            DFS(adj, visited, st, i);
+        }
+    }
+    
+    while(!st.empty()) {
+        int element = st.top();
+        cout<<element<<" ";
+        st.pop();
+    }
+    
+    return 0;
+}
